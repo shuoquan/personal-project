@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" name="referrer" content="no-referrer">
+    <title>Vue</title>
+</head>
+<body>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<div id="app">
+    {{ message }}
+</div>
+<script>
+  const app = new Vue({
+    el: '#app',
+    data: {
+      message: 'Hello Vue!'
+    },
+    mounted() {
+       axios.get(``).then(res=>{
+         console.log(res)
+         this.message = res;
+       })
+    }
+  })
+</script>
+</body>
+</html>

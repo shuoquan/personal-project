@@ -1,0 +1,39 @@
+{
+  "name": "daily-project",
+  "version": "1.0.0",
+  "description": "daily project practice",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "shuoquan",
+  "license": "ISC",
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^2.26.0",
+    "@typescript-eslint/parser": "^2.26.0",
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb-base": "^14.1.0",
+    "eslint-config-standard": "^14.1.1",
+    "eslint-plugin-import": "^2.20.2",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.1"
+  },
+  "dependencies": {
+    "axios": "^0.19.2",
+    "bcrypt": "^4.0.1",
+    "bluebird": "^3.7.2",
+    "child_process": "^1.0.2",
+    "fast-xml-parser": "^3.17.4",
+    "moment": "^2.25.3",
+    "mysql2": "^2.1.0",
+    "node-sha1": "^1.0.1",
+    "nodejs-websocket": "^1.7.2",
+    "redis": "^3.0.2",
+    "sequelize": "^5.21.7",
+    "typeorm": "^0.2.24",
+    "typescript": "^3.8.3",
+    "urlencode": "^1.1.0",
+    "ws": "^7.3.0"
+  }
+}

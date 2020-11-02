@@ -1,0 +1,100 @@
+<!--<!DOCTYPE html>-->
+<!--<html lang="en">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <title>20200414</title>-->
+<!--</head>-->
+<!--<body>-->
+<!--<div>-->
+<!--    <div class="rect">20200414</div>-->
+<!--    <div class="rect">20200414</div>-->
+<!--    <div class="rect">20200414</div>-->
+<!--</div>-->
+<!--</body>-->
+<!--<script>-->
+<!--</script>-->
+<!--<style>-->
+<!--    .rect{-->
+<!--        width: 42%;-->
+<!--        heigth: 200px;-->
+<!--        margin: 10px;-->
+<!--        border: 20px aquamarine solid;-->
+<!--        padding: 20px;-->
+<!--        font-size: 2px;-->
+<!--        text-align: center;-->
+<!--        display: inline-block;-->
+<!--    }-->
+<!--</style>-->
+<!--</html>-->
+
+<!--<!DOCTYPE html>-->
+<!--<html>-->
+<!--<head lang="en">-->
+<!--    <meta charset="UTF-8">-->
+<!--    <title></title>-->
+<!--    <script type="text/javascript">-->
+<!--        window.onload = function(){-->
+<!--            //去掉默认的contextmenu事件，否则会和右键事件同时出现。-->
+<!--            // document.oncontextmenu = function(e){-->
+<!--            //     e.preventDefault();-->
+<!--            // };-->
+<!--            document.getElementById("test").onmousedown = function(e){-->
+<!--                console.log('ee',e);-->
+<!--                if(e.button ==2){-->
+<!--                    alert("你点了右键");-->
+<!--                }else if(e.button ==0){-->
+<!--                    alert("你点了左键");-->
+<!--                }else if(e.button ==1){-->
+<!--                    alert("你点了滚轮");-->
+<!--                }-->
+<!--            }-->
+<!--        }-->
+<!--    </script>-->
+<!--</head>-->
+<!--<body>-->
+
+<!--<div style="width: 400px;height:400px;margin:auto;border:1px solid pink" id="test"></div>-->
+<!--</body>-->
+<!--</html>-->
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+    <script src="https://unpkg.com/prop-types@15.6/prop-types.js"></script>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+    const value = `I come from Parent Component.`;
+    function Child(props) {
+        console.log(props);
+        return (
+            <h1>
+                Child Component. time:{props.time}. value:{props.value}
+            </h1>
+        );
+    }
+    function Parent(props) {
+        console.log(props);
+        return (
+            <div>
+                <h1>Parent Component. Time: {props.time}</h1>
+                <Child
+                    time={props.time + 'from parent'}
+                    value={props.value + 'from parent'}
+                />
+            </div>
+        );
+    }
+    ReactDOM.render(
+        <Parent time={1} value={value} />,
+        document.getElementById('root')
+    );
+</script>
+</body>
+</html>

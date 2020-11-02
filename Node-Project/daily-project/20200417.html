@@ -1,0 +1,72 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+        "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>鼠标框选效果</title>
+    <style>
+        *{
+            padding:0;
+            margin:0;
+        }
+        .bottom{
+            position:absolute;
+            bottom:0px;
+            width:100%;
+            height:40px;
+            border:1px solid #000;
+            background:bisque;
+            color:#fff;
+        }
+        .tempDiv{
+            border:2px dashed green;
+            position:absolute;
+            width:0;
+            height:0;
+            filter:alpha(opacity:10);
+            opacity:0.1
+        }
+    </style>
+    <script type = "text/javascript">
+        let count=1;
+        window.onload = function(){
+            const stateBar = document.getElementById("bottom");
+            console.log("123",stateBar);
+
+            document.onmousedown = function(e){
+                const posx = e.clientX;
+                const posy = e.clientY;
+                const div = document.createElement("div");
+                div.id=count;
+                count+=1;
+                div.className = "tempDiv";
+                div.onclick=function(){
+                    console.log("ffff")
+                    div.parentNode.removeChild(div);
+                }
+                div.style.left = e.clientX+"px";
+                div.style.top = e.clientY+"px";
+                document.body.appendChild(div);
+                document.onmousemove = function(ev){
+                    div.style.left = Math.min(ev.clientX, posx) + "px";
+                    div.style.top = Math.min(ev.clientY, posy) + "px";
+                    div.style.width = Math.abs(posx - ev.clientX)+"px";
+                    div.style.height = Math.abs(posy - ev.clientY)+"px";
+                    stateBar.innerHTML = "MouseX: " + ev.clientX + "<br/>MouseY: " + ev.clientY;
+                    document.onmouseup = function(){
+                        // console.log("123",div.parentNode);
+                        console.log("321");
+                        console.log(document.getElementsByClassName("tempDiv"));
+                        // div.parentNode.removeChild(div);
+                        document.onmousemove = null;
+                        document.onmouseup = null;
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body>
+<div id="bottom" class="bottom"></div>
+</body>
+</html>
