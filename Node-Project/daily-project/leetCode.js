@@ -341,7 +341,7 @@
 // };
 // console.log(coinChange([1, 2, 5], 11));
 
-const maxAreaOfIsland = function (grid) {
+const maxAreaOfIsland = function(grid) {
   const matrix = [];
   let index = 0;
   while (index < grid.length) {
@@ -480,35 +480,222 @@ const maxAreaOfIsland = function (grid) {
 //   return start - 1;
 // };
 
-const nthUglyNumber = function (n) {
-  const total = n;
-  const list = [1];
-  let i = 0;
-  let j = 0;
-  let k = 0;
-  while (n > 0) {
-    if (n === 1) {
-      n -= 1;
-    } else {
-      const minNum = Math.min(list[i] * 2, list[j] * 3, list[k] * 5);
-      if (minNum === list[i] * 2) {
-        i += 1;
-      }
-      if (minNum === list[j] * 3) {
-        j += 1;
-      }
-      if (minNum === list[k] * 5) {
-        k += 1;
-      }
-      n -= 1;
-      list.push(minNum);
-    }
-  }
-  return list[total - 1];
-};
-
-console.log(nthUglyNumber(1352));
-console.log(Math.min(1, 3, -1));
+// const nthUglyNumber = function (n) {
+//   const total = n;
+//   const list = [1];
+//   let i = 0;
+//   let j = 0;
+//   let k = 0;
+//   while (n > 0) {
+//     if (n === 1) {
+//       n -= 1;
+//     } else {
+//       const minNum = Math.min(list[i] * 2, list[j] * 3, list[k] * 5);
+//       if (minNum === list[i] * 2) {
+//         i += 1;
+//       }
+//       if (minNum === list[j] * 3) {
+//         j += 1;
+//       }
+//       if (minNum === list[k] * 5) {
+//         k += 1;
+//       }
+//       n -= 1;
+//       list.push(minNum);
+//     }
+//   }
+//   return list[total - 1];
+// };
+//
+// console.log(nthUglyNumber(1352));
+// console.log(Math.min(1, 3, -1));
 // 402653184
 // const result = [1, 2, 3].find(v => v === 4);
 // console.log(result);
+
+// 440. 字典序的第K小数字
+const findKthNumber = function(n, k) {
+  while (k > 0) {
+    let index = 1;
+    while (index < 10) {
+      let count = 0;
+      let curNum = index;
+      while (curNum <= n) {
+        count += 1;
+        curNum *= 10;
+        const temp = k;
+        const base = 10 ** (count - 1);
+        k -= (index + 1) * base - 1 > n ? n - base * index + 1 : base;
+        if (k <= 0) {
+          return index * 10 ** (count - 1) + temp - 1;
+        }
+      }
+      index += 1;
+    }
+  }
+};
+//
+// let x = 3;
+// console.log(10 ** x)
+// console.log(findKthNumber(10, 3));
+
+const findKthBit = function(n, k) {
+  return getTargetNum(n)[k - 1];
+};
+
+// const getTargetNum = function (n) {
+//   if (n === 1) {
+//     return '0';
+//   }
+//   const result = getTargetNum(n - 1);
+//   let str = '';
+//   for (const s of result) {
+//     str = (s === '0' ? '1' : '0').concat(str);
+//   }
+//   return `${result}1${str}`;
+// };
+//
+// console.log(findKthBit(3,1));
+
+// 题目描述
+// 给出一个仅包含字符'(',')','{','}','['和']',的字符串，判断给出的字符串是否是合法的括号序列
+// 括号必须以正确的顺序关闭，"()"和"()[]{}"都是合法的括号序列，但"(]"和"([)]"不合法。
+// function isValid(s) {
+//   const stack = [];
+//   for (const str of s) {
+//     if (str === '{' || str === '[' || str === '(') {
+//       stack.push(str);
+//     } else if (str === '}') {
+//       if (stack.pop() !== '{') {
+//         return false;
+//       }
+//     } else if (str === ']') {
+//       if (stack.pop() !== '[') {
+//         return false;
+//       }
+//     } else if (str === ')') {
+//       if (stack.pop() !== '(') {
+//         return false;
+//       }
+//     }
+//   }
+//   return stack.length === 0;
+// }
+//
+// console.log(isValid("[]"))
+
+// 快速排序算法实现
+function quickSort(arr, start, end) {
+  if (start > end) {
+    return;
+  }
+  const ref = arr[start];
+  let i = start + 1;
+  let j = end;
+  let index = start;
+  while (i < j) {
+    while (arr[j] >= ref) {
+      j -= 1;
+    }
+    if (j >= start) {
+      arr[index] = arr[j];
+      index = j;
+      arr[j] = ref;
+    }
+    while (arr[i] <= ref) {
+      i += 1;
+    }
+    if (i <= end && i < j) {
+      arr[index] = arr[i];
+      index = i;
+      arr[i] = ref;
+    }
+  }
+  quickSort(arr, 0, index - 1);
+  quickSort(arr, index + 1, end);
+}
+
+// arr = [1,2,3];
+// quickSort(arr, 0, 4);
+// console.log(arr);
+
+// const findMaxLength = function(nums) {
+//   let max = 0;
+//   for(let i = 0 ; i<nums.length; i+=1)
+//   {
+//     for(let j=i+1;j<nums.length; j+=1) {
+//
+//     }
+//   }
+// };
+
+const breakPalindrome = function(palindrome) {
+  let target = palindrome;
+  let index = 0;
+  while (index < palindrome.length) {
+    if (palindrome[index] > "a") {
+      const temp = palindrome
+        .slice(0, index)
+        .concat(
+          String.fromCharCode(palindrome[index].charAt() - 1),
+          palindrome.slice(index + 1)
+        );
+      if (temp < target) {
+        target = temp;
+      }
+    }
+    index += 1;
+  }
+  return target;
+};
+
+// console.log(breakPalindrome("abccba"));
+
+// console.log("abc" > "abd")
+// console.log(String.fromCharCode(97 + 1))
+//
+// console.log('b'.charCodeAt())
+
+const str1 = "123";
+const str2 = str1;
+// console.log(str1.charAt(1))
+// console.log(str1.split("").join(""));
+// str1[1] = "4";
+// console.log(str1, str2);
+console.log(str1.slice(0, 0));
+
+// const maxDistToClosest = function(seats) {
+//   const totalSeat = seats.length;
+//   let index = 0;
+//   let max = 0;
+//   while (index < totalSeat) {
+//     if (seats[index] === 0) {
+//       let left = index - 1;
+//       let right = index + 1;
+//       while (left >= 0 && seats[left] === 0) {
+//         left -= 1;
+//       }
+//       while (right < totalSeat && seats[right] === 0) {
+//         right += 1;
+//       }
+//       let value = index - left < right - index ? index - left : right - index;
+//       if (index === 0) {
+//         value = right - index;
+//       }
+//       if (index === totalSeat - 1) {
+//         value = index - left;
+//       }
+//       if (value > max) {
+//         max = value;
+//       }
+//     }
+//     index += 1;
+//   }
+//   return max;
+// };
+//
+// console.log(maxDistToClosest([1, 0, 0, 0, 1, 0, 1]));
+
+console.log(new Date().getMonth())
+
+console.log('1' * 1 + '1' * 1);

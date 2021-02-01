@@ -1,3 +1,4 @@
+const fs = require('fs');
 const info = require('./info.json');
 
 console.log(info, typeof info);
@@ -39,10 +40,18 @@ console.log(Number.MAX_VALUE);
 // const object2 = { ...object1 };
 // object1.name = 'alice';
 // console.log(object2);
-(() => {
-  console.log('haha');
-})();
-
-const arr = [1, 2, 3];
-console.log(...arr);
-console.log(0.1 - 0.1);
+// (() => {
+//   console.log('haha');
+// })();
+//
+// const arr = [1, 2, 3];
+// console.log(...arr);
+// console.log(0.1 - 0.1);
+// fs.writeFile('./zkx_url_map_113.txt', 'hello world', (err) => {
+//   if (err) {
+//     console.log(err);
+//   }
+//   console.log('success');
+// });
+const arr = [1,2,3]
+console.log(null === undefined)

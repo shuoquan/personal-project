@@ -1,5 +1,6 @@
 import json
 import time
+
 data = {"name": "alice", "age": 12}
 # for item in data:
 #     print(item)
@@ -19,15 +20,14 @@ start = 0
 #     start+=1
 # print()
 
-newList = [10,2,3]
+newList = [10, 2, 3]
 # newList.reverse()
 # newList.sort(key=None, reverse=True)
-list1 = [1,2,3]
+list1 = [1, 2, 3]
 list2 = list1.copy()
 list2[1] = 3
 str = "123"
 print(str.replace("1", "2"))
-
 
 # for i in range(10000):
 #
@@ -45,6 +45,10 @@ print(str.replace("1", "2"))
 # print(end - start)
 
 
-data = [1,2,3,2]
+data = [1, 2, 3, 2]
+#
+# print(list(map(lambda x:x**2,[1,2,3])))
 
-print(list(map(lambda x:x**2,[1,2,3])))
+x, y = 1, 2
+[x, y] = [y, x]
+print(x, y)

@@ -9,6 +9,7 @@ const promise = require('bluebird');
 const fs = require('fs');
 const xml = require('fast-xml-parser');
 const Decimal = require('decimal');
+const qs = require('querystring');
 // const time = 1609344010000;
 // console.log(new Date('2020-01-01'))
 
@@ -427,24 +428,36 @@ console.log(
 
 const box = 'milk0001';
 console.log([box]);
-console.log(moment(new Date()).startOf('day').unix());
-const curMonth = moment().startOf('month').unix();
-const nextMonth = moment().subtract(-1, 'month').startOf('month').unix();
+console.log(
+  moment(new Date())
+    .startOf('day')
+    .unix(),
+);
+const curMonth = moment()
+  .startOf('month')
+  .unix();
+const nextMonth = moment()
+  .subtract(-1, 'month')
+  .startOf('month')
+  .unix();
 console.log((nextMonth - curMonth) / 86400);
 console.log(typeof moment(1607788800 * 1000).format('M/DD'));
 console.log(new Decimal('0.123').toNumber().toFixed(2));
 console.log(moment(1601198252));
 
-
-console.log(moment(1601481600 * 1000).subtract(1, 'month').unix());
-console.log(moment((1601481600 - 1) * 1000)
-  .startOf('month')
-  .unix());
-
+console.log(
+  moment(1601481600 * 1000)
+    .subtract(1, 'month')
+    .unix(),
+);
+console.log(
+  moment((1601481600 - 1) * 1000)
+    .startOf('month')
+    .unix(),
+);
 
 console.log(undefined || '');
 console.log(nextMonth);
-
 
 const list1 = [
   {
@@ -473,21 +486,25 @@ ob.name.age = '11';
 ssss = 1;
 console.log(ssss);
 
-console.log(moment().startOf('week').unix());
+console.log(
+  moment()
+    .startOf('week')
+    .unix(),
+);
 
 const rankList = [{ age: 12 }, { age: 13 }];
 const index = rankList.findIndex((v) => v.age > 13);
 console.log(index);
 
-
 console.log(moment().unix());
-
 
 console.log(null - 1);
 console.log(null >= 0);
 
-
-const sortList = [{ name: 'bob', age: 12 }, { name: 'alice', age: 11 }];
+const sortList = [
+  { name: 'bob', age: 12 },
+  { name: 'alice', age: 11 },
+];
 const sortedList = sortList.sort((a, b) => b.age - a.age);
 sortedList[0].name = 'qq';
 console.log(sortList, sortedList);
@@ -498,7 +515,6 @@ const shiftList = [1, 2, 3];
 console.log(shiftList.unshift(7, 6, 7));
 console.log(shiftList);
 
-
 // const object = {
 //   name: 'bob',
 // };
@@ -508,12 +524,12 @@ const arr2 = [3, 4, 2];
 arr2.sort((a, b) => a - b);
 console.log(arr2);
 
-function outFun(){
-    const name = "Chrome";
-    function alertName(){
-        console.log(name);
-    }
-    return alertName;   //alertName被外部函数作为返回值返回了,返回的是一个闭包
+function outFun() {
+  const name = 'Chrome';
+  function alertName() {
+    console.log(name);
+  }
+  return alertName; // alertName被外部函数作为返回值返回了,返回的是一个闭包
 }
 
 // var myFun = outFun();
@@ -529,14 +545,10 @@ function outFun(){
 //     console.log(clearTimeout(timer), 'pp')
 // }, 1000)
 
-
 const start = new Date().getTime();
-for(let i=0; i < 1000000000; i+=1){
-
-}
+for (let i = 0; i < 1000000000; i += 1) {}
 const end = new Date().getTime();
-console.log((end - start) / 1000)
-
+console.log((end - start) / 1000);
 
 // const start = new Date().getTime();
 // let begin = 1000000000;
@@ -546,9 +558,41 @@ console.log((end - start) / 1000)
 // const end = new Date().getTime();
 // console.log((end - start) / 1000)
 
+const one = new Promise((resolve, reject) => {
+  resolve('one成功');
+});
 
-const list10 = [1,2,3];
-const top = list10.pop();
-console.log(top, list10)
+const two = new Promise((resolve, reject) => {
+  reject('two成功');
+});
 
-console.log(2**3)
+const three = new Promise((resolve, reject) => reject('three失败'));
+
+// Promise.race([one, two, three]).then(
+//   (res) => {
+//     console.log(res);
+//   },
+//   (err) => {
+//     console.log('ee');
+//     console.log(err);
+//   },
+// );
+
+// const tt = new Promise((resolve, reject) => {
+//   reject('hapi');
+//   resolve('haha');
+// });
+// tt.then((result) => {
+//   console.log(result);
+// }).catch((err) => {
+//   console.log(err);
+// });
+
+// console.log(
+//   typeof qs.stringify({
+//     name: 'bob',
+//     age: 12,
+//   }),
+// );
+//
+// console.log({name:"bob"} instanceof Object);

@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html ng-app="app">
+  <head>
+    <meta charset="utf-8" />
+    <title ng-bind="title">使用jQuery实现返回顶部功能</title>
+    <link
+      href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
+
+    <style>
+      body,
+      html {
+        height: 100%;
+      }
+      footer,
+      header {
+        flex: 1;
+      }
+      header.navbar-top {
+        text-align: center;
+        height: 30px !important;
+        min-height: 40px;
+        background: #205081;
+        color: #fff;
+        font-size: 14px !important;
+        line-height: 40px;
+        z-index: 9999;
+      }
+      header.navbar-top a {
+        color: #fff;
+      }
+      .example {
+        height: 1800px;
+        width: 500px;
+        background-color: pink;
+        margin: auto;
+        margin-top: 40px;
+      }
+
+      .margin-lg {
+        margin: 250px 0;
+      }
+      .fixed-tools {
+        position: fixed;
+        right: 40px;
+        bottom: 100px;
+        z-index: 1000;
+        text-align: center;
+      }
+      .fixed-tools i {
+        margin: 0 !important;
+        font-size: 22px;
+        line-height: 1;
+      }
+      .fixed-tools li.item {
+        margin-bottom: 10px !important;
+      }
+      .fixed-tools li a {
+        padding: 13px 12px !important;
+        width: 46px;
+        height: 46px;
+        border-radius: 50% !important;
+        background: #f1f1f1;
+      }
+      .fixed-tools li a:hover {
+        background-color: #7cc923 !important;
+        color: #fff !important;
+      }
+      .fixed-tools li a:hover i {
+        color: #fff !important;
+      }
+      .hover-fixed {
+        position: absolute;
+        top: 0;
+        right: 100%;
+        display: none;
+        width: 150px;
+        height: 100%;
+        background-color: #7cc923;
+        color: #fff;
+      }
+      .hover-gototop {
+        position: absolute;
+        right: 0;
+        bottom: -46px;
+        display: none;
+        background: #f1f1f1;
+      }
+    </style>
+    <script>
+      $(function() {
+        // 为窗口的scroll事件绑定处理函数
+        $(window).scroll(function() {
+          // 获取窗口的滚动条的垂直位置
+          var s = $(window).scrollTop();
+          // 当窗口的滚动条的垂直位置大于页面的最小高度时，让返回顶部元素渐现，否则渐隐
+          if (s > 300) {
+            $(".hover-gototop").fadeIn(100);
+          } else {
+            $(".hover-gototop").fadeOut(200);
+          }
+        });
+
+        // 点击返回顶部，也可返回指定位置
+        $(".hover-gototop").on("click", function() {
+          $("html,body").animate(
+            {
+              scrollTop: 0
+            },
+            700
+          );
+        });
+      });
+    </script>
+  </head>
+  <body>
+    <header class="navbar-top navbar-fixed-top">
+      <a href="#">使用jQuery实现返回顶部功能</a>
+    </header>
+    <section class="example">
+      内容区
+    </section>
+    <ul class="nav fixed-tools">
+      <li class="item">
+        <a class="text-muted" title="联系方式">Tel</a>
+      </li>
+      <li>
+        <div id="backTop">
+          <a class="hover-gototop" title="返回顶部">↑</a>
+        </div>
+      </li>
+    </ul>
+  </body>
+</html>

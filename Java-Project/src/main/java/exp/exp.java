@@ -7,10 +7,29 @@ import com.alibaba.fastjson.JSONObject;
 //import sun.plugin2.message.Message;
 //import sun.plugin2.message.Serializer;
 
+import com.alibaba.fastjson.parser.Feature;
 import java.io.IOException;
 import java.io.StringReader;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.Map.Entry;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.function.Consumer;
+import java.util.function.Function;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 public class exp implements Runnable {
 
@@ -27,7 +46,8 @@ public class exp implements Runnable {
 //
   }
 
-  public static void main(String[] args) {
+  public static void main(String[] args)
+      throws ClassNotFoundException, NoSuchMethodException, IllegalAccessException, InstantiationException, InvocationTargetException, ExecutionException, InterruptedException {
 //      Stack stack = new Stack();
 //      stack.push(null);
 //      System.out.println(stack.pop());
@@ -196,7 +216,7 @@ public class exp implements Runnable {
     map.put("age", "12");
     System.out.println(map.keySet());
     System.out.println(map.entrySet());
-    for(Entry<String, String> entry : map.entrySet()){
+    for (Entry<String, String> entry : map.entrySet()) {
       System.out.println(entry.getKey());
     }
     System.out.println(map.containsValue("name"));
@@ -207,5 +227,167 @@ public class exp implements Runnable {
     System.out.println(s1.getName());
     System.out.println(s2.getName());
     System.out.println();
+
+    Student s = new Student("张三", 12);
+    System.out.println(s.getClass());
+    System.out.println(Student.class);
+    // 第三种通用性更强
+    System.out.println(Class.forName("exp.Student"));
+    System.out.println(Arrays.toString(Class.forName("exp.Student").getInterfaces()));
+
+    Class studentClass = Class.forName("exp.Student");
+    // 获取类中构造函数列表
+    System.out.println(Arrays.toString(studentClass.getConstructors()));
+    // 获取类中无参构造函数
+    Constructor constructor = studentClass.getConstructor();
+    Object ss = studentClass.newInstance();
+    System.out.println(ss.toString());
+
+    // 获取带参构造
+    Constructor paramConstructor = studentClass.getConstructor(String.class, int.class);
+    System.out.println(paramConstructor.newInstance("12", 12).toString());
+
+    // 获取类方法
+    // getMethods只能获取公有方法或者从父类继承的方法
+    Method[] methods = studentClass.getMethods();
+    System.out.println(Arrays.toString(methods));
+    // getDeclaredMethods获取类中所有方法但不包括父类继承的方法
+    methods = studentClass.getDeclaredMethods();
+    System.out.println(Arrays.toString(methods));
+    // 获取单个方法
+    Method method = studentClass.getMethod("eat");
+    method.invoke(ss);
+    // 获取带参公有方法
+    method = studentClass.getMethod("eat", String.class);
+    System.out.println(method.invoke(ss, "hah"));
+
+    // 获取带参私有方法
+    method = studentClass.getDeclaredMethod("drink", String.class);
+    // 设置访问权限无效
+    method.setAccessible(true);
+    System.out.println(method.invoke(ss, "hah"));
+
+    // 获取静态方法
+//    studentClass.getMethod("beat", String.class);
+//    System.out.println(method.invoke(null, "hah"));
+
+    // lambda表达式
+    TreeSet<String> treeSet1 = new TreeSet<>((String str1, String str2) -> {
+      return str1.length() - str2.length();
+    });
+    treeSet1.add("120");
+    treeSet1.add("12");
+    System.out.println(treeSet1);
+
+    Consumer<String> consumer = System.out::println;
+    consumer.accept("hello");
+
+    Comparator<Integer> comparator = Integer::compare;
+    System.out.println(comparator.compare(1, 3));
+
+    Function<Student, String> function = Student::getName;
+    System.out.println(function.apply(new Student("hello", 12)));
+
+    // stream
+    ArrayList<String> arrayList1 = new ArrayList<>();
+    arrayList1.add("jane");
+    arrayList1.add("alice");
+    arrayList1.add("bob");
+    Stream<String> stream = arrayList1.parallelStream();
+    stream.forEach(System.out::println);
+
+    String[] arr = {"1", "2", "3"};
+    Stream<String> stream1 = Arrays.stream(arr);
+    stream1.forEach(System.out::println);
+
+    Stream<String> stream2 = Stream.of("1", "3", "5");
+    stream2.forEach(System.out::println);
+
+    Stream<Integer> stream3 = Stream.iterate(0, x -> x + 2);
+    stream3.limit(12).forEach(System.out::println);
+
+    IntStream stream4 = IntStream.of(10, 20, 30);
+    stream4.forEach(System.out::println);
+
+    arrayList1.stream().filter((e) -> e.length() > 4).forEach(System.out::println);
+    arrayList1.stream().limit(2).forEach(System.out::println);
+    System.out.println("wait ----");
+    arrayList1.stream().sorted((str1, str2) -> str1.compareTo(str2)).forEach(
+        System.out::println);
+    System.out.println(Double.compare(12.00, 12.03));
+
+//    ArrayList<Integer> arrayList2 = new ArrayList<>();
+//    for (int i = 0; i < 5000000; i++) {
+//      arrayList2.add(i);
+//    }
+//    long time = System.currentTimeMillis();
+//    long count = arrayList2.stream().sorted().count();
+//    System.out.println(System.currentTimeMillis() - time);
+
+    Optional<String> min = arrayList1.stream().min((x, y) -> x.compareTo(y));
+    System.out.println(min.get());
+
+    Optional<String> sum = arrayList1.stream().reduce((x, y) -> x + y);
+    System.out.println(sum.get());
+
+    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd");
+    DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyyMMdd");
+    ExecutorService executorService = Executors.newFixedThreadPool(10);
+    Callable<Date> callable = new Callable<Date>() {
+      @Override
+      public Date call() throws Exception {
+        synchronized (simpleDateFormat) {
+          return simpleDateFormat.parse("2020425");
+        }
+      }
+    };
+//    List<Future<Date>> list1 = new ArrayList<>();
+//    for (int i = 0; i < 10; i++) {
+//      Future<Date> future = executorService.submit(callable);
+//      list1.add(future);
+//    }
+//    for (Future<Date> future : list1) {
+//      System.out.println(future.get());
+//    }
+//    executorService.shutdown();
+
+    LocalDateTime localDateTime = LocalDateTime.now();
+    System.out.println(localDateTime.minusDays(2));
+
+    Instant instant = Instant.now();
+    System.out.println(instant.toEpochMilli());
+    System.out.println(System.currentTimeMillis());
+
+//    Set<String> availableZoneList = ZoneId.getAvailableZoneIds();
+//    for(String zone:availableZoneList){
+//      System.out.println(zone);
+//    }
+    System.out.println(ZoneId.systemDefault());
+
+    Date date = new Date();
+    System.out.println(date);
+    Instant instant1 = date.toInstant();
+    System.out.println(instant1);
+
+    LocalDateTime localDateTime1 = LocalDateTime.ofInstant(instant1, ZoneId.systemDefault());
+    System.out.println(localDateTime1);
+
+    System.out.println(localDateTime.atZone(ZoneId.systemDefault()).toInstant());
+    System.out.println(Date.from(instant));
+
+    System.out.println(DateTimeFormatter.ofPattern("yyyyMMdd HH:mm:ss").format(LocalDateTime.now()));
+
+    System.out.println(Integer.parseInt("110",2));
+
+    ArrayList<Integer> arrayList2 = new ArrayList<Integer>(){{
+      add(1);
+      add(2);
+    }};
+    System.out.println(arrayList2);
+
+    Map<String, String> map1 = new HashMap<>();
+    map1.put("name", "bob");
+    System.out.println(map1.get("name"));
+
   }
 }

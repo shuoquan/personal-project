@@ -1,9 +1,10 @@
 "use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
         function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
@@ -34,8 +35,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-var _this = this;
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 require("reflect-metadata");
 var typeorm_1 = require("typeorm");
 var box_1 = require("./entity/box");
@@ -49,8 +49,8 @@ typeorm_1.createConnection({
     entities: [
         "src/entity/**/*.ts"
     ],
-    synchronize: true
-}).then(function (connection) { return __awaiter(_this, void 0, void 0, function () {
+    synchronize: true,
+}).then(function (connection) { return __awaiter(void 0, void 0, void 0, function () {
     var boxRepository, result;
     return __generator(this, function (_a) {
         switch (_a.label) {
@@ -64,4 +64,4 @@ typeorm_1.createConnection({
                 return [2 /*return*/];
         }
     });
-}); })["catch"](function (error) { return console.log(error); });
+}); }).catch(function (error) { return console.log(error); });

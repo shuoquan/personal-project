@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Title</title>
+  </head>
+  <body>
+    <div
+      id="content"
+      style="height:150px;line-height:150px;text-align:center; color: #fff;background-color:#ccc;font-size:80px;"
+    ></div>
+    <script>
+      let num = 1;
+      let content = document.getElementById("content");
+
+      function count() {
+          let timer = null;
+        if (!timer) {
+          content.innerHTML = num++;
+          timer = setTimeout(() => {count.apply(timer)}, 5000);
+        }
+        clearTimeout(timer);
+      }
+      content.onmousemove = count;
+    </script>
+  </body>
+</html>
